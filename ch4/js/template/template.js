@@ -1,4 +1,5 @@
 export let URLGeoJson = "https://raw.githubusercontent.com/gabyzanna/gisbel/main/data.json";
+export let urlPostGCF = "https://asia-southeast2-global-student-401904.cloudfunctions.net/gis4";
 export let tableTag="tr";
 export let tableRowClass="content is-small";
 export let tableTemplate=`
