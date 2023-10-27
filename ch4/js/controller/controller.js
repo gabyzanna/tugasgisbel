@@ -1,31 +1,30 @@
 import {setInner,addChild } from "https://jscroot.github.io/element/croot.js";
 import {tableTemplate, tableRowClass, tableTag} from "../template/template.js";
-import {map} from '../config/configpeta.js'; 
+import {map} from '../config/configpeta.js';
 
 export function isiRowPoint(value){
     if (value.geometry.type === "Point") {
-    let content=tableTemplate.replace("#NAME#",value.properties.Point).replace("#KORDINAT#",value.geometry.coordinates).replace("#TYPE#",value.geometry.type);
+    let content=tableTemplate.replace("#TYPE#",value.geometry.type).replace("#NAME#",value.properties.name).replace("#KORDINAT#",value.geometry.coordinates);
     // console.log(content);
-    addChild("Point",tableTag,tableRowClass,content);
+    addChild("lokasi",tableTag,tableRowClass,content);
     }
 }
 
 export function isiRowPolygon(value){
     if (value.geometry.type === "Polygon") {
-    let content=tableTemplate.replace("#NAME#",value.properties.Tempat).replace("#KORDINAT#",value.geometry.coordinates).replace("#TYPE#",value.geometry.type);
+    let content=tableTemplate.replace("#TYPE#",value.geometry.type).replace("#NAME#",value.properties.name).replace("#KORDINAT#",value.geometry.coordinates);
     // console.log(content);
-    addChild("Tempat",tableTag,tableRowClass,content);
+    addChild("polygon",tableTag,tableRowClass,content);
     }
 }
 
 export function isiRowPolyline(value){
     if (value.geometry.type === "LineString") {
-    let content=tableTemplate.replace("#NAME#",value.properties.Jalan).replace("#KORDINAT#",value.geometry.coordinates).replace("#TYPE#",value.geometry.type);
+    let content=tableTemplate.replace("#TYPE#",value.geometry.type).replace("#NAME#",value.properties.name).replace("#KORDINAT#",value.geometry.coordinates);
     // console.log(content);
-    addChild("Jalan",tableTag,tableRowClass,content);
+    addChild("line",tableTag,tableRowClass,content);
     }
 }
-
 export function MakeGeojsonFromAPI(value) {
     const geojsonFeatureCollection = {
         type: "FeatureCollection",
@@ -82,7 +81,7 @@ export function AddLayerToMAP(geojson){
             if (featureType === 'Polygon') {
                 return new ol.style.Style({
                     stroke: new ol.style.Stroke({
-                        color: 'red', 
+                        color: 'purple', 
                         width: 2
                     })
                 });
@@ -90,7 +89,7 @@ export function AddLayerToMAP(geojson){
                 
                 return new ol.style.Style({
                     stroke: new ol.style.Stroke({
-                        color: 'black', 
+                        color: 'grey', 
                         width: 3
                     })
                 });
@@ -101,10 +100,10 @@ export function AddLayerToMAP(geojson){
     map.addLayer(polylayer);
     map.addLayer(layerpoint);}
 
-
 export function responseData(results){
     // console.log(results.features);
-    results.features.forEach(isiRowPoint);
-    results.features.forEach(isiRowPolygon);
-    results.features.forEach(isiRowPolyline);
+    // console.log(MakeGeojsonFromAPI(results))
+    results.forEach(isiRowPoint);
+    results.forEach(isiRowPolygon);
+    results.forEach(isiRowPolyline);
 }
